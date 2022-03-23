@@ -12,6 +12,9 @@ public class Main {
             if (out.equals("/exit")) {
                 System.out.println("Bye!");
                 break;
+            }else if (out.equals("/help")) {
+                System.out.println("The program calculates the sum of numbers");
+                continue;
             }else {
                 List<String> list=Arrays.asList(out.split(" "));
                 if (list.isEmpty()) {
@@ -22,11 +25,14 @@ public class Main {
                     }else if(list.size()==1){
                         System.out.println(Integer.parseInt(list.get(0)));
                     }else {
-                        System.out.println(Integer.parseInt(list.get(0))+Integer.parseInt(list.get(1)));
+                        int sum = 0;
+                        for (String counter:list) {
+                            sum+=Integer.parseInt(counter);
+                        }
+                        System.out.println(sum);
                     }
                 }
             }
         }while (true);
-
     }
 }
