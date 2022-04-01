@@ -4,30 +4,31 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Calculator {
-    private static boolean exitCommand;
     private boolean validExpression = true;
     private Map<String, String> variables = new HashMap<>();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-        while(!exitCommand) {
-            String input = scanner.nextLine();
-            String inputWithoutWithspaces = input.replace(" ", "");
-            Calculator calculator = new Calculator();
-            calculator.evaluateInput(inputWithoutWithspaces);
+        Calculator calculator = new Calculator();
+        String inputWithoutWithspaces;
+        String input;
+        boolean exitVar = false;
+        while(!exitVar) {
+            input = scanner.nextLine();
+            inputWithoutWithspaces = input.replace(" ", "");
+            exitVar = calculator.evaluateInput(inputWithoutWithspaces);
         }
 
     }
 
 
-    public void evaluateInput(String input) {
+    public boolean evaluateInput(String input) {
         validExpression = true;
         Deque<String> postfixNotation;
 
         if(input.isEmpty()) {
         } else if(input.startsWith("/")){
-            evaluateCommands(input);
+            return evaluateCommands(input);
         } else if(input.contains("=")) {
             saveVariablesToMap(input);
         } else if(input.matches("[a-zA-Z]+")) {
@@ -40,6 +41,7 @@ public class Calculator {
                 System.out.println("Invalid expression");
             }
         }
+        return false;
     }
 
     public BigInteger calculate(Deque<String> input) {
@@ -226,14 +228,15 @@ public class Calculator {
     }
 
 
-    public void evaluateCommands(String input) {
+    public boolean evaluateCommands(String input) {
         if(input.equals("/exit")) {
             System.out.println("Bye!");
-            exitCommand = true;
+            return true;
         } else if(input.equals("/help")) {
             System.out.println("This program calculates numbers, as you would expect.");
         } else {
             System.out.println("Unknown command");
         }
+        return false;
     }
 }
